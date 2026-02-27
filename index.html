@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advik Veer E. — Mechanical Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --black2: #111111;
+    --black3: #181818;
+    --purple: #8b5cf6;
+    --purple-dim: #6d28d9;
+    --purple-glow: rgba(139,92,246,0.12);
+    --white: #f4f4f5;
+    --gray: #71717a;
+    --gray2: #3f3f46;
+    --border: rgba(139,92,246,0.18);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--purple);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 32px; height: 32px;
+    border: 1px solid var(--purple);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    opacity: 0.35;
+    transition: width 0.3s, height 0.3s, opacity 0.3s;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 5rem;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  nav.scrolled {
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(14px);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--purple); }
+  .nav-links { display: flex; gap: 3rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--gray);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 65%);
+    top: 50%; left: 40%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--purple);
+    border: 1px solid var(--border);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    width: fit-content;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--purple);
+    border-radius: 50%;
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s forwards;
+  }
+  .hero-name .purple { color: var(--purple); }
+
+  .hero-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--gray);
+    max-width: 500px;
+    line-height: 1.75;
+    margin-top: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.5s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.65s forwards;
+  }
+  .btn-primary {
+    background: var(--purple);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.7rem 1.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--purple-dim); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.7rem 1.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid var(--gray2);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--purple); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3.5rem;
+    margin-top: 5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.7s 0.8s forwards;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.9rem;
+    color: var(--purple);
+    line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 0.72rem;
+    color: var(--gray);
+    margin-top: 0.3rem;
+    letter-spacing: 0.03em;
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 7rem 5rem;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .divider { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); }
+
+  .sec-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 0.6rem;
+  }
+  .sec-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+
+  /* EDUCATION */
+  .edu-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .edu-card {
+    background: var(--black2);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .edu-card:hover { background: #161616; }
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--purple-glow);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .edu-card:hover::before { opacity: 1; }
+  .edu-score {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2.6rem;
+    color: var(--purple);
+    line-height: 1;
+  }
+  .edu-degree {
+    font-weight: 500;
+    font-size: 0.92rem;
+    color: var(--white);
+    margin-top: 0.7rem;
+    line-height: 1.4;
+  }
+  .edu-inst { font-size: 0.77rem; color: var(--gray); margin-top: 0.35rem; line-height: 1.5; }
+  .edu-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--purple);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.2rem 0.65rem;
+    margin-top: 1rem;
+  }
+
+  /* PROJECTS */
+  .projects-wrap {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .project-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    padding: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .project-row:last-child { border-bottom: none; }
+  .project-row:hover { background: rgba(139,92,246,0.05); }
+  .proj-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--gray2);
+    padding-top: 0.15rem;
+  }
+  .proj-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .proj-type { font-size: 0.7rem; color: var(--purple); letter-spacing: 0.05em; margin-bottom: 0.7rem; }
+  .proj-desc { font-size: 0.86rem; color: var(--gray); line-height: 1.75; }
+  .proj-tags { display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-end; min-width: 110px; }
+  .ptag {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray);
+    background: var(--black3);
+    border: 1px solid var(--gray2);
+    border-radius: 4px;
+    padding: 0.2rem 0.55rem;
+    white-space: nowrap;
+  }
+
+  /* SKILLS */
+  .skills-wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; }
+  .skills-panel {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+  .sp-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--purple);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .skill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(63,63,70,0.4);
+    font-size: 0.86rem;
+    color: var(--white);
+  }
+  .skill-row:last-child { border-bottom: none; }
+  .skill-arrow { color: var(--purple); font-size: 0.7rem; }
+
+  .lang-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .lang-item {
+    background: var(--black3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    transition: border-color 0.2s;
+  }
+  .lang-item:hover { border-color: var(--purple); }
+  .lang-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.88rem; }
+  .lang-lvl { font-size: 0.68rem; color: var(--purple); margin-top: 0.2rem; }
+
+  .right-col { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .strength-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.86rem;
+    color: var(--white);
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(63,63,70,0.4);
+  }
+  .strength-item:last-child { border-bottom: none; }
+  .sdot { width: 5px; height: 5px; background: var(--purple); border-radius: 50%; flex-shrink: 0; }
+
+  /* ACHIEVEMENTS */
+  .ach-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .ach-card {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem 1.2rem;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .ach-card:hover { border-color: var(--purple); transform: translateY(-4px); }
+  .ach-icon { font-size: 1.8rem; margin-bottom: 0.7rem; display: block; }
+  .ach-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.85rem; line-height: 1.4; }
+  .ach-detail { font-size: 0.7rem; color: var(--purple); margin-top: 0.35rem; letter-spacing: 0.04em; }
+
+  .lead-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .lead-card {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: border-color 0.3s;
+  }
+  .lead-card:hover { border-color: var(--purple); }
+  .lead-role { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; }
+  .lead-org { font-size: 0.78rem; color: var(--purple); margin-top: 0.25rem; margin-bottom: 0.9rem; letter-spacing: 0.04em; }
+  .lead-desc { font-size: 0.84rem; color: var(--gray); line-height: 1.75; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black2);
+    border-top: 1px solid var(--border);
+    padding: 4rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; }
+  .footer-name span { color: var(--purple); }
+  .footer-tagline { font-size: 0.78rem; color: var(--gray); margin-top: 0.3rem; }
+  .footer-links { display: flex; flex-direction: column; gap: 0.45rem; text-align: right; }
+  .footer-links a { font-size: 0.78rem; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--purple); }
+  .footer-copy { font-size: 0.68rem; color: var(--gray2); margin-top: 0.75rem; text-align: right; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    nav, .hero, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .section { padding: 5rem 1.5rem; }
+    .hero-stats { gap: 2rem; flex-wrap: wrap; }
+    .edu-cards { grid-template-columns: 1fr; }
+    .project-row { grid-template-columns: 40px 1fr; }
+    .proj-tags { display: none; }
+    .skills-wrap { grid-template-columns: 1fr; }
+    .ach-grid { grid-template-columns: 1fr 1fr; }
+    .lead-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 2rem; }
+    .footer-links, .footer-copy { text-align: center; }
+    nav { padding: 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">Advik<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">Mechanical Engineer · Chennai, India</div>
+  <h1 class="hero-name">Advik Veer<br><span class="purple">E.</span></h1>
+  <p class="hero-desc">B.E. Mechanical Engineering student at College of Engineering, Guindy — designing systems that are precise, durable, and built to perform.</p>
+  <div class="hero-cta">
+    <a href="mailto:advik.veer1215@gmail.com" class="btn-primary">Get in Touch</a>
+    <a href="https://linkedin.com/in/advik-veer" target="_blank" class="btn-outline">LinkedIn →</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">8.6</div>
+      <div class="stat-lbl">CGPA</div>
+    </div>
+    <div>
+      <div class="stat-num">93.4%</div>
+      <div class="stat-lbl">Class XII</div>
+    </div>
+    <div>
+      <div class="stat-num">3×</div>
+      <div class="stat-lbl">Best Player Award</div>
+    </div>
+    <div>
+      <div class="stat-num">3×</div>
+      <div class="stat-lbl">Zonal Champion</div>
+    </div>
+    <div>
+      <div class="stat-num">4</div>
+      <div class="stat-lbl">Languages</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<div id="education">
+<div class="section">
+  <div class="sec-eyebrow reveal">Academic Background</div>
+  <h2 class="sec-title reveal">Education</h2>
+  <div class="edu-cards reveal">
+    <div class="edu-card">
+      <div class="edu-score">8.6</div>
+      <div class="edu-degree">B.E. Mechanical Engineering</div>
+      <div class="edu-inst">College of Engineering, Guindy<br>Affiliated to Anna University</div>
+      <div class="edu-badge">CGPA</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-score">93.4%</div>
+      <div class="edu-degree">Class XII — CBSE</div>
+      <div class="edu-inst">Hindu Sr. Sec School</div>
+      <div class="edu-badge">School Topper · Biology & Chemistry</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-score">91%</div>
+      <div class="edu-degree">Class X — CBSE</div>
+      <div class="edu-inst">Hindu Sr. Sec School</div>
+      <div class="edu-badge">Distinction</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<div id="projects">
+<div class="section">
+  <div class="sec-eyebrow reveal">Engineering Work</div>
+  <h2 class="sec-title reveal">Academic Projects</h2>
+  <div class="projects-wrap reveal">
+    <div class="project-row">
+      <div class="proj-num">01</div>
+      <div>
+        <div class="proj-type">Team Project · Safety Systems</div>
+        <div class="proj-title">Mechanical Side Stand — Accident Preventer</div>
+        <div class="proj-desc">Designed a purely mechanical interlock mechanism to prevent two-wheeler movement when the side stand is engaged. Applied kinematics and machine design principles, eliminating sensor dependency for improved durability and reduced cost. Contributed to concept design, assembly, and testing.</div>
+      </div>
+      <div class="proj-tags">
+        <div class="ptag">Kinematics</div>
+        <div class="ptag">Machine Design</div>
+        <div class="ptag">Safety</div>
+        <div class="ptag">Assembly</div>
+      </div>
+    </div>
+    <div class="project-row">
+      <div class="proj-num">02</div>
+      <div>
+        <div class="proj-type">Team Project · Robotics</div>
+        <div class="proj-title">Robotic Hand Gripper</div>
+        <div class="proj-desc">Designed and fabricated a mechanical robotic gripper using linkage mechanisms. Performed grip force and load analysis, optimizing gripping stability for objects of varying sizes through material selection and machine design principles.</div>
+      </div>
+      <div class="proj-tags">
+        <div class="ptag">Linkage Mech.</div>
+        <div class="ptag">Force Analysis</div>
+        <div class="ptag">Fabrication</div>
+        <div class="ptag">Materials</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<div id="skills">
+<div class="section">
+  <div class="sec-eyebrow reveal">Capabilities</div>
+  <h2 class="sec-title reveal">Skills & Languages</h2>
+  <div class="skills-wrap">
+    <div class="reveal">
+      <div class="skills-panel">
+        <div class="sp-title">Technical Skills</div>
+        <div class="skill-row"><span>Engineering Mechanics</span><span class="skill-arrow">↗</span></div>
+        <div class="skill-row"><span>Strength of Materials</span><span class="skill-arrow">↗</span></div>
+        <div class="skill-row"><span>Product Design & Development</span><span class="skill-arrow">↗</span></div>
+        <div class="skill-row"><span>Manufacturing Technology</span><span class="skill-arrow">↗</span></div>
+        <div class="skill-row"><span>Machine Design Basics</span><span class="skill-arrow">↗</span></div>
+        <div class="skill-row"><span>Engineering Drawing</span><span class="skill-arrow">↗</span></div>
+        <div class="skill-row"><span>MS Excel</span><span class="skill-arrow">↗</span></div>
+      </div>
+    </div>
+    <div class="right-col reveal">
+      <div class="skills-panel">
+        <div class="sp-title">Languages Known</div>
+        <div class="lang-list">
+          <div class="lang-item"><div class="lang-name">Tamil</div><div class="lang-lvl">Proficient</div></div>
+          <div class="lang-item"><div class="lang-name">English</div><div class="lang-lvl">Proficient</div></div>
+          <div class="lang-item"><div class="lang-name">Hindi</div><div class="lang-lvl">Conversant</div></div>
+          <div class="lang-item"><div class="lang-name">Japanese</div><div class="lang-lvl">Learning · JLPT N5</div></div>
+        </div>
+      </div>
+      <div class="skills-panel">
+        <div class="sp-title">Core Strengths</div>
+        <div class="strength-item"><div class="sdot"></div>Strong Analytical Ability</div>
+        <div class="strength-item"><div class="sdot"></div>Leadership & Team Management</div>
+        <div class="strength-item"><div class="sdot"></div>Performance Under Pressure</div>
+        <div class="strength-item"><div class="sdot"></div>Time Management & Discipline</div>
+        <div class="strength-item"><div class="sdot"></div>Competitive Mindset</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ACHIEVEMENTS -->
+<div id="achievements">
+<div class="section">
+  <div class="sec-eyebrow reveal">Recognition & Roles</div>
+  <h2 class="sec-title reveal">Achievements & Leadership</h2>
+  <div class="ach-grid reveal">
+    <div class="ach-card">
+      <span class="ach-icon">🏆</span>
+      <div class="ach-title">School Topper</div>
+      <div class="ach-detail">Biology & Physics</div>
+    </div>
+    <div class="ach-card">
+      <span class="ach-icon">🏸</span>
+      <div class="ach-title">South India Badminton Winner</div>
+      <div class="ach-detail">Under 15</div>
+    </div>
+    <div class="ach-card">
+      <span class="ach-icon">🏀</span>
+      <div class="ach-title">Best Player Award</div>
+      <div class="ach-detail">3 Consecutive Years</div>
+    </div>
+    <div class="ach-card">
+      <span class="ach-icon">🥇</span>
+      <div class="ach-title">Badminton Zonal Champion</div>
+      <div class="ach-detail">3 Years · College</div>
+    </div>
+  </div>
+  <div class="lead-grid reveal">
+    <div class="lead-card">
+      <div class="lead-role">Captain</div>
+      <div class="lead-org">College Basketball Team</div>
+      <div class="lead-desc">Leading the competitive college basketball team — responsible for strategy planning, squad coordination, and performance. Earned Best Player Award for three consecutive years.</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-role">Sports Secretary</div>
+      <div class="lead-org">School</div>
+      <div class="lead-desc">Led school teams in Basketball, Shuttle Badminton, and Kho-Kho. Managed preparation and coordination for multiple inter-school competitions across disciplines.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-name">Advik Veer <span>E.</span></div>
+    <div class="footer-tagline">Mechanical Engineer · Chennai, Tamil Nadu</div>
+  </div>
+  <div>
+    <div class="footer-links">
+      <a href="mailto:advik.veer1215@gmail.com">advik.veer1215@gmail.com</a>
+      <a href="tel:+919444546680">+91-9444546680</a>
+      <a href="https://linkedin.com/in/advik-veer" target="_blank">linkedin.com/in/advik-veer</a>
+    </div>
+    <div class="footer-copy">© 2025 Advik Veer E.</div>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+  (function loop() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  document.querySelectorAll('a, .ach-card, .edu-card, .project-row, .lead-card, .lang-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '16px'; cursor.style.height = '16px';
+      ring.style.width = '50px'; ring.style.height = '50px'; ring.style.opacity = '0.7';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '8px'; cursor.style.height = '8px';
+      ring.style.width = '32px'; ring.style.height = '32px'; ring.style.opacity = '0.35';
+    });
+  });
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
